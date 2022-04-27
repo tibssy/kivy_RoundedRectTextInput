@@ -1,0 +1,105 @@
+<RoundedRectTextInput@TextInput>:
+#    size_hint_x: (root.width - self.radius) / self.width if self.width else 1
+#    pos_hint: {'center_x': 0.5}
+    background_normal: ''
+    background_active: ''
+    backgnd_color: 1,1,1,1
+    background_color: self.backgnd_color if self.focus else [ch ** 2 for ch in self.backgnd_color]
+    text_color: 0,0,0,1
+    border_color: 1,1,1,1
+    border_width: 1
+    radius: 0
+
+    canvas.before:
+        Color:
+            rgba: self.text_color
+
+    canvas.after:
+        Color:
+            rgba: self.background_color
+        Ellipse:
+            angle_start: 0
+            angle_end: 90
+            pos: (self.pos[0] + self.size[0] - self.radius // 2, self.pos[1] + self.size[1] - self.radius)
+            size: (self.radius, self.radius)
+        Ellipse:
+            angle_start: 90
+            angle_end: 180
+            pos: (self.pos[0] + self.size[0] - self.radius // 2, self.pos[1])
+            size: (self.radius, self.radius)
+        Ellipse:
+            angle_start: 180
+            angle_end: 270
+            pos:(self.pos[0] - self.radius // 2, self.pos[1])
+            size: (self.radius, self.radius)
+        Ellipse:
+            angle_start: 270
+            angle_end: 360
+            pos:(self.pos[0] - self.radius // 2, self.pos[1] + self.size[1] - self.radius)
+            size: (self.radius, self.radius)
+        Rectangle:
+            pos: (self.pos[0] + self.size[0], self.pos[1] + self.radius // 2)
+            size: (self.radius // 2, self.size[1] - self.radius)
+        Rectangle:
+            pos: (self.pos[0] - self.radius // 2, self.pos[1] + self.radius // 2)
+            size: (self.radius // 2, self.size[1] - self.radius)
+
+        Color:
+            rgba: self.border_color if self.focus else (ch ** 2 for ch in self.border_color)
+        Line:
+            width: self.border_width
+            ellipse: self.pos[0] + self.size[0] - self.radius // 2, self.pos[1] + self.size[1] - self.radius, self.radius, self.radius, 0, 90
+        Line:
+            width: self.border_width
+            ellipse: self.pos[0] + self.size[0] - self.radius // 2, self.pos[1], self.radius, self.radius, 90, 180
+        Line:
+            width: self.border_width
+            ellipse: self.pos[0] - self.radius // 2, self.pos[1], self.radius, self.radius, 180, 270
+        Line:
+            width: self.border_width
+            ellipse: self.pos[0] - self.radius // 2, self.pos[1] + self.size[1] - self.radius, self.radius, self.radius, 270, 360
+        Line:
+            width: self.border_width
+            points: self.pos[0] + self.size[0] + self.radius // 2, self.pos[1] + self.size[1] - self.radius // 2, self.pos[0] + self.size[0] + self.radius // 2, self.pos[1] + self.radius // 2
+        Line:
+            width: self.border_width
+            points: self.pos[0] , self.pos[1], self.pos[0] + self.size[0], self.pos[1]
+        Line:
+            width: self.border_width
+            points: self.pos[0] - self.radius // 2, self.pos[1] + self.size[1] - self.radius // 2, self.pos[0] - self.radius // 2, self.pos[1] + self.radius // 2
+        Line:
+            width: self.border_width
+            points: self.pos[0], self.pos[1] + self.size[1], self.pos[0] + self.size[0], self.pos[1] + self.size[1]
+
+
+<MyLayout>
+    orientation: 'vertical'
+    padding: 150
+    spacing: 50
+    canvas.before:
+        Color:
+            rgba: 0.2,0,0.4,1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    TextInput:
+        font_size: self.height * 0.75
+        multiline: False
+
+    MDTextFieldRound:
+        font_size: self.height * 0.75
+        size_hint: 1, 0.8
+
+    RoundedRectTextInput:
+        font_size: self.height * 0.75
+        multiline: False
+        backgnd_color: 0,0.8,0.8,1
+        text_color: 1,0,0,1
+        border_color: 0.9,0,0,1
+        border_width: 3
+        radius: 50
+
+    Button:
+        font_size: self.height * 0.5
+        text: 'Button'
